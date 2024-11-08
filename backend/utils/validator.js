@@ -26,5 +26,5 @@ export const validateRequest = (req, res, next) => {
     if (errors.isEmpty()) {
         return next();
     }
-    httpResponse.badRequestResponse(res, errors.array()[0].msg);
+    return httpResponse.badRequestResponse(res, errors.array()[0].msg);
 };
