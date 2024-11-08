@@ -1,4 +1,5 @@
 import { body, validationResult } from 'express-validator';
+import httpResponse from './httpResponse.js';
 
 export const validate = (method) => {
     switch (method) {
@@ -25,5 +26,5 @@ export const validateRequest = (req, res, next) => {
     if (errors.isEmpty()) {
         return next();
     }
-    return res.status(400).json({ message: errors.array()[0].msg });
+    httpResponse.badRequestResponse(res, errors.array()[0].msg);
 };
