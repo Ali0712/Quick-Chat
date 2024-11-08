@@ -1,7 +1,7 @@
 const httpResponse = {
-    
-    successResponse: (res, data, status = 200) => {
-        return res.status(status).json({ success: true, data });
+
+    successResponse: (res, data, message, status = 200) => {
+        return res.status(status).json({ success: true, data, message });
     },
     
     errorResponse: (res, message, status = 500) => {
@@ -26,7 +26,14 @@ const httpResponse = {
     
     conflictResponse: (res, message = 'Conflict') => {
         return res.status(409).json({ success: false, message });
-    }
+    },
+
+    loginResponse: (res, cookie, data, message, status = 200) => {
+        return res.status(status).cookie("token", cookie, {
+            httpOnly: true,
+            secure: true,
+        }).json({ success: true, data, message });
+    },
 };
 
 export default httpResponse;
