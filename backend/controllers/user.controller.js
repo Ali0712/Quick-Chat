@@ -49,17 +49,30 @@ class UserController {
             if (!comparePassword) {
                 return httpResponse.badRequestResponse(res, "Invalid credentials");
             }
-            const loggedInUser = await User.findById(user._id).select("-password");
+            const data = {
+                _id: user._id,
+                email: user.email,
+                fullName: user.fullName,
+                profilePhoto: user.profilePhoto
+            }
         
             const token = user.generateToken();
-            return httpResponse.loginResponse(res, token, loggedInUser, "User logged in successfully");
+            return httpResponse.loginResponse(res, token, data, "User logged in successfully");
         }
         catch (error) {
             return httpResponse.errorResponse(res, error.message);
         }
     }
+
+    async logoutUser(req, res) {
+        try {
+            return httpResponse.logoutResponse(res, "User logged out successfully");
+        } catch (error) {
+            return httpResponse.errorResponse(res, error.message);
+        }
+    }
     
-    
+
 }
 
 export default UserController;

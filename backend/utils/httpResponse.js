@@ -34,6 +34,10 @@ const httpResponse = {
             secure: true,
         }).json({ success: true, data, message });
     },
+
+    logoutResponse: (res, message, status = 200) => {
+        return res.status(status).clearCookie("token").json({ success: true, message });
+    }
 };
 
 export default httpResponse;

@@ -1,12 +1,18 @@
 import express from 'express';
 import UserController from '../controllers/user.controller.js';
 import { validate, validateRequest } from '../utils/validator.js';
+import verifyToken from '../middlewares/auth.middleware.js';
 
 const userRouter = express.Router();
 
 const userController = new UserController();
 
-userRouter.post('/register', validate('signup'), validateRequest, userController.registerUser);
-userRouter.post('/login', validate('login'), validateRequest, userController.loginUser);
+userRouter.route('/register')
+    .post(validate('registerUser'), validateRequest, userController.registerUser);
+userRouter.route('/login')
+    .post(validate('loginUser'), validateRequest, userController.loginUser);
+userRouter.route('/logout')
+    .post(verifyToken, userController.logoutUser);
 
+    
 export default userRouter;
