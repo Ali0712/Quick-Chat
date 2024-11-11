@@ -72,6 +72,18 @@ class UserController {
         }
     }
     
+    async getOtherUsers(req, res) {
+        try {
+            const userId = req.user._id;
+            const users = await User.find({ _id: { $ne: userId } }).select("-password");
+            if (!users) {
+                return httpResponse.notFoundResponse(res, "Users not found");
+            }
+            return httpResponse.successResponse(res, users, "Users fetched successfully");
+        } catch (error) {
+            return httpResponse.errorResponse(res, error.message);
+        }
+    }
 
 }
 
