@@ -3,11 +3,13 @@ import dotenv from "dotenv";
 dotenv.config({});
 import connectDB from "./config/db.js";
 import userRouter from "./routes/user.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/users", userRouter);

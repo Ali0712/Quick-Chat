@@ -8,9 +8,9 @@ const userRouter = express.Router();
 const userController = new UserController();
 
 userRouter.route('/register')
-    .post(validate('registerUser'), validateRequest, userController.registerUser);
+    .post([validate('register'), validateRequest], userController.registerUser);
 userRouter.route('/login')
-    .post(validate('loginUser'), validateRequest, userController.loginUser);
+    .post([validate('login'), validateRequest], userController.loginUser);
 userRouter.route('/logout')
     .post(verifyToken, userController.logoutUser);
 

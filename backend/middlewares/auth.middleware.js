@@ -4,9 +4,9 @@ import httpResponse from "../utils/httpResponse.js";
 
 
 const verifyToken = async (req, res, next) => {
-    const token = req.cookies?.token || req.headers("Authorization")?.replace("Bearer ", "");
+    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
-        return httpResponse.unauthorizedResponse(res, "Unauthorized");
+        return httpResponse.unauthorizedResponse(res, "Unauthorized! No token provided");
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

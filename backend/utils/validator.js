@@ -3,7 +3,7 @@ import httpResponse from './httpResponse.js';
 
 export const validate = (method) => {
     switch (method) {
-        case 'signup': {
+        case 'register': {
         return [
             body('email', 'Invalid email').exists().isEmail(),
             body('password', 'Invalid password').exists().isLength({ min: 6 }),
@@ -23,8 +23,8 @@ export const validate = (method) => {
 
 export const validateRequest = (req, res, next) => {
     const errors = validationResult(req);
-    if (errors.isEmpty()) {
-        return next();
+    if (!errors.isEmpty()) {
+        return httpResponse.badRequestResponse(res, errors.array()[0].msg);
     }
-    return httpResponse.badRequestResponse(res, errors.array()[0].msg);
+    next();
 };
