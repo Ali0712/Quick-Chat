@@ -2,8 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config({});
 import connectDB from "./config/db.js";
-import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
+import userRouter from "./routes/user.routes.js";
+import messageRouter from "./routes/message.routes.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/messages", messageRouter);
 
 const PORT = process.env.PORT || 5000;
 

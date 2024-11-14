@@ -18,6 +18,12 @@ export const validate = (method) => {
             body('password', 'Invalid password').exists().isLength({ min: 6 }),
         ];
         }
+        case 'message': {
+        return [
+            body('receiverId', 'Invalid receiverId').exists().isString(),
+            body('message', 'Invalid message').exists().isString(),
+        ];
+        }
     }
 };  
 
