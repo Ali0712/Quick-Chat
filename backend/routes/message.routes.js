@@ -10,7 +10,7 @@ const messageController = new MessageController();
 messageRouter.route("/send/:id")
     .post([verifyToken, validate('message'), validateRequest], messageController.sendMessage);
 messageRouter.route("/:id")
-    .get([verifyToken, validate('message'), validateRequest], messageController.getMessage);
+    .get(verifyToken, messageController.getMessage);
 
     
 export default messageRouter;

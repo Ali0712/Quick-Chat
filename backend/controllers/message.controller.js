@@ -1,6 +1,6 @@
 import httpResponse from "../utils/httpResponse.js";
-import Message from "../models/message.model.js";
-import Conversation from "../models/conversation.model.js";
+import {Message} from "../models/message.model.js";
+import {Conversation} from "../models/conversation.model.js";
 
 class MessageController{
     async sendMessage(req, res){

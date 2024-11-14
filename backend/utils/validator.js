@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body, param, validationResult } from 'express-validator';
 import httpResponse from './httpResponse.js';
 
 export const validate = (method) => {
@@ -20,7 +20,7 @@ export const validate = (method) => {
         }
         case 'message': {
         return [
-            body('receiverId', 'Invalid receiverId').exists().isString(),
+            param('id', 'Invalid id').exists().isString(),
             body('message', 'Invalid message').exists().isString(),
         ];
         }
