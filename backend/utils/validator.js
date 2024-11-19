@@ -21,7 +21,8 @@ export const validate = (method) => {
         case 'message': {
         return [
             param('id', 'Invalid id').exists().isString(),
-            body('message', 'Invalid message').exists().isString(),
+            body('text', 'Invalid text').exists().isString(),
+            body('image', 'Invalid image').optional().isString(),
         ];
         }
     }

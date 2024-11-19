@@ -18,7 +18,7 @@ class UserController {
             const male = `https://avatar.iran.liara.run/public/boy?username=${fullName}`
             const female = `https://avatar.iran.liara.run/public/girl?username=${fullName}`
 
-            const user = await User.create({
+            const user = new User({
                 email,
                 password,
                 fullName,
@@ -26,12 +26,25 @@ class UserController {
                 profilePhoto: gender === "male" ? male : female
             });
 
-            const createdUser = await User.findById(user._id).select("-password");
-            if (!createdUser) {
+            if (!user) {
                 return httpResponse.badRequestResponse(res, "Something went wrong while creating user");
             }
+            await user.save();
+            const data = {
+                _id: user._id,
+                email: user.email,
+                fullName: user.fullName,
+                profilePhoto: user.profilePhoto
+            }
+            
+            return httpResponse.successResponse(res, data, "User created successfully", 201);
 
-            return httpResponse.successResponse(res, createdUser, "User created successfully", 201);
+            // const createdUser = await User.findById(user._id).select("-password");
+            // if (!createdUser) {
+            //     return httpResponse.badRequestResponse(res, "Something went wrong while creating user");
+            // }
+
+            // return httpResponse.successResponse(res, createdUser, "User created successfully", 201);
 
         } catch (error) {
             return httpResponse.errorResponse(res, error.message);
@@ -45,6 +58,7 @@ class UserController {
             if (!user) {
                 return httpResponse.notFoundResponse(res, "User not found");
             }
+            
             const comparePassword = await user.comparePassword(password);
             if (!comparePassword) {
                 return httpResponse.badRequestResponse(res, "Invalid credentials");
@@ -71,20 +85,6 @@ class UserController {
             return httpResponse.errorResponse(res, error.message);
         }
     }
-    
-    async getOtherUsers(req, res) {
-        try {
-            const userId = req.user._id;
-            const users = await User.find({ _id: { $ne: userId } }).select("-password");
-            if (!users) {
-                return httpResponse.notFoundResponse(res, "Users not found");
-            }
-            return httpResponse.successResponse(res, users, "Users fetched successfully");
-        } catch (error) {
-            return httpResponse.errorResponse(res, error.message);
-        }
-    }
-
 }
 
 export default UserController;

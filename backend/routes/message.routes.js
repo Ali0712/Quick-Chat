@@ -7,10 +7,11 @@ const messageRouter = express.Router();
 
 const messageController = new MessageController();
 
+messageRouter.route("/users").get(verifyToken, messageController.getOtherUsers);
+messageRouter.route("/:id").get(verifyToken, messageController.getMessages);
+    
 messageRouter.route("/send/:id")
-    .post([verifyToken, validate('message'), validateRequest], messageController.sendMessage);
-messageRouter.route("/:id")
-    .get(verifyToken, messageController.getMessage);
+.post([verifyToken, validate('message'), validateRequest], messageController.sendMessage);
 
     
 export default messageRouter;

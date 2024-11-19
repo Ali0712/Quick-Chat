@@ -13,8 +13,6 @@ userRouter.route('/login')
     .post([validate('login'), validateRequest], userController.loginUser);
 userRouter.route('/logout')
     .post(verifyToken, userController.logoutUser);
-userRouter.route('/')
-    .get(verifyToken, userController.getOtherUsers);
 
     
 export default userRouter;
