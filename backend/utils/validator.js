@@ -21,8 +21,14 @@ export const validate = (method) => {
         case 'message': {
         return [
             param('id', 'Invalid id').exists().isString(),
-            body('text', 'Invalid text').exists().isString(),
+            body('text', 'Invalid text').optional().isString(),
             body('image', 'Invalid image').optional().isString(),
+            body().custom((value) => {
+            if (!value.text && !value.image) {
+                throw new Error('Text or image is required');
+            }
+            return true;
+            }),
         ];
         }
     }

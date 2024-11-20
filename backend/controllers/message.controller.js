@@ -28,6 +28,7 @@ class MessageController {
                 const uploadedImage = await cloudinary.uploader.upload(image);
                 imageUrl = uploadedImage.secure_url;
             }
+            
 
             const newMessage = new Message({
                 senderId,
@@ -58,13 +59,14 @@ class MessageController {
 
             const messages = await Message.find({
                 $or: [
-                    { sender: senderId, receiver: receiverId },
-                    { sender: receiverId, receiver: senderId }
+                    { senderId, receiverId },
+                    { receiverId, senderId }
                 ]
             });
-            if (!messages) {
+            if (!messages || messages.length === 0) {
                 return httpResponse.notFoundResponse(res, "No messages found");
             }
+            console.log(messages);
             return httpResponse.successResponse(res, messages, "Messages retrieved successfully");
 
         }
