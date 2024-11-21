@@ -85,6 +85,16 @@ class UserController {
             return httpResponse.errorResponse(res, error.message);
         }
     }
+
+    async checkAuth(req, res) {
+        try {
+            return httpResponse.successResponse(res, req.user, "User is authenticated", 200);
+        }
+        catch (error) {
+            return httpResponse.errorResponse(res, error.message);
+        }
+    }
+
 }
 
 export default UserController;
