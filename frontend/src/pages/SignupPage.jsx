@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const SignUpPage = () => {
@@ -14,7 +14,8 @@ const SignUpPage = () => {
     gender: "",
   });
 
-  const { isSigningUp } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");
@@ -22,8 +23,7 @@ const SignUpPage = () => {
     if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
     if (!formData.password) return toast.error("Password is required");
     if (formData.password.length < 6) return toast.error("Password must be at least 6 characters");
-    if (formData.password !== formData.confirmPassword)
-      return toast.error("Passwords do not match");
+    if (formData.password !== formData.confirmPassword) return toast.error("Passwords do not match");
     if (!formData.gender) return toast.error("Gender selection is required");
 
     return true;
@@ -33,8 +33,9 @@ const SignUpPage = () => {
     e.preventDefault();
     const success = validateForm();
     if (success === true) {
-      console.log(formData);
+      signup(formData);
     }
+    navigate("/login");
   };
 
   return (
@@ -105,7 +106,7 @@ const SignUpPage = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="input input-bordered w-full pl-10"
-                  placeholder="••••••••"
+                  placeholder="********"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
@@ -134,7 +135,7 @@ const SignUpPage = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="input input-bordered w-full pl-10"
-                  placeholder="••••••••"
+                  placeholder="********"
                   value={formData.confirmPassword}
                   onChange={(e) =>
                     setFormData({ ...formData, confirmPassword: e.target.value })

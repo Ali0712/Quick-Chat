@@ -9,13 +9,12 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  
+
   const { login, isLoggingIn } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    
+    login(formData);    
   };
 
   return (
@@ -66,7 +65,7 @@ const LoginPage = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 className={`input input-bordered w-full pl-10`}
-                placeholder="••••••••"
+                placeholder="********"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />

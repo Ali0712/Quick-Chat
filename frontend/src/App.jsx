@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { user, checkAuth, isCheckingAuth } = useAuthStore();
@@ -11,7 +12,6 @@ function App() {
     checkAuth();
   }, []);
 
-  console.log(user);
 
   if (isCheckingAuth && !user) {
     return (
@@ -27,6 +27,7 @@ function App() {
       <main>
         <Outlet />
       </main>
+      <Toaster />
     </div>
   );
 }
