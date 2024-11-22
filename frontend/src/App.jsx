@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const { user, checkAuth, isCheckingAuth } = useAuthStore();
@@ -23,6 +24,9 @@ function App() {
   return (
     <div>
       <Navbar />
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }
